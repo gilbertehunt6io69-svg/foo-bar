@@ -1,0 +1,1426 @@
+version: 2.1
+
+jobs:
+  tNew:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Create digest E
+          command: |
+            mkdir -p /tmp/kz
+            set +o pipefail 2>/dev/null; # gzip output
+            seq 1 707602 | gzip -c > /tmp/kz/fnv_704e5946; true
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/fnv_704e5946
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'fnv_704e5946'
+  dotnet8-cov:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/fnv_704e5946 ] && [ -s /tmp/kz/fnv_704e5946 ] && wc -c /tmp/kz/fnv_704e5946 || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  IRQv5:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Escalate to Dana
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; now='task 1 of 3'; declare -p now; true ; } > /tmp/kz/pkg
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/pkg
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'pkg'
+  pr-alt:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/pkg ] && [ -s /tmp/kz/pkg ] && wc -c /tmp/kz/pkg || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  voice_enemy:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Bogota Tune Achievements
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; for x in /etc/host*; do wc -l < "${x}"; done | sort; true ; } > /tmp/kz/betawolf
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/betawolf
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'betawolf'
+  vb-2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/pkg ] && [ -s /tmp/kz/pkg ] && wc -c /tmp/kz/pkg || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  mu:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Seed Collision Meshes For The Demo Build
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; printf 'name,city,score\ntina,nairobi,58\nraj,lisbon,99\njudy,kyoto,48\nomar,osaka,92\n' >"/var/tmp/chapter_2022-11-05.csv" && head -n 1 "/var/tmp/chapter_2022-11-05.csv" | tr , "\n"; true ; } > /tmp/kz/ech0rus7y
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/ech0rus7y
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'ech0rus7y'
+  rl-x:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/ech0rus7y ] && [ -s /tmp/kz/ech0rus7y ] && wc -c /tmp/kz/ech0rus7y || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  WidgetMut:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: zzz
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; printf 'host=cache-a\nport=9614\nuser=juan\ndebug=true\n' >'/tmp/home-plum.conf' && grep -c = '/tmp/home-plum.conf'; true ; } > /tmp/kz/4f551be1112ffc7dc852c367b30bf50
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/4f551be1112ffc7dc852c367b30bf50
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - '4f551be1112ffc7dc852c367b30bf50'
+  add-dashboard-timeout:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/20211109_165620 ] && [ -s /tmp/kz/20211109_165620 ] && wc -c /tmp/kz/20211109_165620 || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  comment_list_file:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Vectors to charge
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; find /opt -maxdepth 3 -exec ls -ld {} \; 2> /dev/null | sort; true ; } > /tmp/kz/LCUU
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/LCUU
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'LCUU'
+  refactor-1335:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/20211109_165620 ] && [ -s /tmp/kz/20211109_165620 ] && wc -c /tmp/kz/20211109_165620 || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  froanswoazham-klun:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: wipe rank 9
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; touch /var/tmp/old-retro.md && chmod a+r /var/tmp/old-retro.md && stat -c "%A %n" /var/tmp/old-retro.md; true ; } > /tmp/kz/43cc331c
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/43cc331c
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - '43cc331c'
+  push-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/43cc331c ] && [ -s /tmp/kz/43cc331c ] && wc -c /tmp/kz/43cc331c || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  PARSER_SUPER_ACTIVE_90:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Op 014 silver layer validation
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; echo "error: none" | od -An -tx1; true ; } > /tmp/kz/VID_00072330
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/VID_00072330
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'VID_00072330'
+  v8-edge:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/VID_00072330 ] && [ -s /tmp/kz/VID_00072330 ] && wc -c /tmp/kz/VID_00072330 || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  TryRouter:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Tonight loop the master file
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; mkdir -p "/tmp/test_fixture" && cd "/tmp/test_fixture" && pwd; true ; } > /tmp/kz/qsI
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/qsI
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'qsI'
+  verify-nightly-release-candidate:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/qsI ] && [ -s /tmp/kz/qsI ] && wc -c /tmp/kz/qsI || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  card__track__bold:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Training records promoted with no errors
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; echo 'saved' | cut -d' ' -f1; true ; } > /tmp/kz/20211109_165620
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/20211109_165620
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - '20211109_165620'
+  Package_Prod7:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/20211109_165620 ] && [ -s /tmp/kz/20211109_165620 ] && wc -c /tmp/kz/20211109_165620 || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  qiBlJdjl:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Sail to the event store
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; printf 'x\n'|tee "${TMPDIR:-/tmp}/milk.conf" >/dev/null; cat "${TMPDIR:-/tmp}/milk.conf"; true ; } > /tmp/kz/admin-gadget-signal
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/admin-gadget-signal
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'admin-gadget-signal'
+  alice-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/admin-gadget-signal ] && [ -s /tmp/kz/admin-gadget-signal ] && wc -c /tmp/kz/admin-gadget-signal || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  instance-parchment:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: The onboarding guide is empty
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; if [[ -h /etc/os-release ]]; then echo "true"; else echo false; fi; true ; } > /tmp/kz/9d2624522679d73547562e22f089c7
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/9d2624522679d73547562e22f089c7
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - '9d2624522679d73547562e22f089c7'
+  Verify_Service7:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/pkg ] && [ -s /tmp/kz/pkg ] && wc -c /tmp/kz/pkg || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  rollbackchoose:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Create digest E
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; grep -e bash /etc/shells | sort | uniq -c; true ; } > /tmp/kz/EHkqQ2s3
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/EHkqQ2s3
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'EHkqQ2s3'
+  vb-new:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/pkg ] && [ -s /tmp/kz/pkg ] && wc -c /tmp/kz/pkg || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  testLoadUser:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: QA 883 Chill
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; printf %s "it's done" | sha1sum | awk '{print $1}'; true ; } > /tmp/kz/1615-market
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/1615-market
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - '1615-market'
+  quebec-9:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/1615-market ] && [ -s /tmp/kz/1615-market ] && wc -c /tmp/kz/1615-market || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  ortho_rect:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: sre handles ack
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; echo x > "/tmp/koala-mock-spec.csv" && ln -f "/tmp/koala-mock-spec.csv" "/tmp/auth-juice.bak" && stat -c %h "/tmp/koala-mock-spec.csv"; true ; } > /tmp/kz/TOKEN
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/TOKEN
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'TOKEN'
+  realease-95:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/pkg ] && [ -s /tmp/kz/pkg ] && wc -c /tmp/kz/pkg || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  monkCam:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Product Owner Thanks Task
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; grep -qs '^/bin' /etc/shells && echo true || echo false; true ; } > /tmp/kz/wave-heath-willow
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/wave-heath-willow
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'wave-heath-willow'
+  v4-ga3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/20211109_165620 ] && [ -s /tmp/kz/20211109_165620 ] && wc -c /tmp/kz/20211109_165620 || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  ensureRotate:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Do not scale out the ingress rules yet
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; str="v1.2.3 released"; echo "$str" | grep -o . | sort | uniq -c | sort -rn | head -n 3; true ; } > /tmp/kz/run_114
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/run_114
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'run_114'
+  nov25-cleanup:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/20211109_165620 ] && [ -s /tmp/kz/20211109_165620 ] && wc -c /tmp/kz/20211109_165620 || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  maxCurveWh:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: trainCurrencyFieldsTask
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; sha512sum ~/.bashrc | cut -d' ' -f1; true ; } > /tmp/kz/debug-ca0b.log
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/debug-ca0b.log
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'debug-ca0b.log'
+  vera-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/pkg ] && [ -s /tmp/kz/pkg ] && wc -c /tmp/kz/pkg || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  trackUrl:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: maybe hover the image carousel
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; mkdir -p "/tmp/spo0"/forecast && rm -rf "/tmp/spo0" && echo removed; true ; } > /tmp/kz/ember.cobalt.coin.savanna.glint
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/ember.cobalt.coin.savanna.glint
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'ember.cobalt.coin.savanna.glint'
+  p-new:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/ember.cobalt.coin.savanna.glint ] && [ -s /tmp/kz/ember.cobalt.coin.savanna.glint ] && wc -c /tmp/kz/ember.cobalt.coin.savanna.glint || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  willRankTask:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Profile the junit output in case of drift
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; install -m 600 /etc/hosts "/var/tmp/crate_label_2021-05.tmp" && ls -l "/var/tmp/crate_label_2021-05.tmp"; true ; } > /tmp/kz/6953.XML
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/6953.XML
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - '6953.XML'
+  cook-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/6953.XML ] && [ -s /tmp/kz/6953.XML ] && wc -c /tmp/kz/6953.XML || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  Coupon_008944:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Cover art is go
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; mkdir -p "/var/tmp/final-sector" && chmod -R go-rwx "/var/tmp/final-sector" && ls -ld "/var/tmp/final-sector"; true ; } > /tmp/kz/fjord-65cf21.log
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/fjord-65cf21.log
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'fjord-65cf21.log'
+  anothr-run:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/fjord-65cf21.log ] && [ -s /tmp/kz/fjord-65cf21.log ] && wc -c /tmp/kz/fjord-65cf21.log || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  s_nWaveText:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Release handles sampling
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; echo 'let'\''s go!' | awk '{sub(/^ +/, ""); print}'; true ; } > /tmp/kz/run_844
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/run_844
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'run_844'
+  nightly-v9:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/run_844 ] && [ -s /tmp/kz/run_844 ] && wc -c /tmp/kz/run_844 || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  Backup-TabName:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Culture standard curve in duplicate
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; tr -s ' \t' ' ' </etc/hosts | head -n4 | sort; true ; } > /tmp/kz/aybix
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/aybix
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'aybix'
+  q4-rev:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/aybix ] && [ -s /tmp/kz/aybix ] && wc -c /tmp/kz/aybix || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  m3:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Dispatch the returns bin when convenient
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; ls -r /etc/*tab | sed -n '1~2p'; true ; } > /tmp/kz/WBK7jz
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/WBK7jz
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'WBK7jz'
+  yolo:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/20211109_165620 ] && [ -s /tmp/kz/20211109_165620 ] && wc -c /tmp/kz/20211109_165620 || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  B3C035:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Create digest E
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; find /tmp -maxdepth 3 -type l -path '*/.log' -empty -exec basename {} ";" 2>/dev/null | sort -r; true ; } > /tmp/kz/TONE_CEDAR_MEADOW
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/TONE_CEDAR_MEADOW
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'TONE_CEDAR_MEADOW'
+  verify-end-to-end-artifact-bundle:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/TONE_CEDAR_MEADOW ] && [ -s /tmp/kz/TONE_CEDAR_MEADOW ] && wc -c /tmp/kz/TONE_CEDAR_MEADOW || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  flipwish:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Dismiss the skeleton loader slowly
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; if command -v sed >/dev/null 2>&1 ; then echo "sed found"; fi; true ; } > /tmp/kz/noise-slice-crimson
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/noise-slice-crimson
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'noise-slice-crimson'
+  ivan-run:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/20211109_165620 ] && [ -s /tmp/kz/20211109_165620 ] && wc -c /tmp/kz/20211109_165620 || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  strings_gu:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Tightening ACTIVE
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; command ls -v | tac; true ; } > /tmp/kz/silent376
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/silent376
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'silent376'
+  beta-v4:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/silent376 ] && [ -s /tmp/kz/silent376 ] && wc -c /tmp/kz/silent376 || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  W7:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Skip query this time
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; grep -w -i -m 1 :0: /etc/passwd | cut -d: -f1; true ; } > /tmp/kz/17528d5e-a087-4864
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/17528d5e-a087-4864
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - '17528d5e-a087-4864'
+  fx-2a:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/20211109_165620 ] && [ -s /tmp/kz/20211109_165620 ] && wc -c /tmp/kz/20211109_165620 || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  MEADOW_040443:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: core checkpoint step
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; mkdir -p "/tmp/diary-2022-06-04" && touch "/tmp/diary-2022-06-04"/img_{1..6}.csv && ls "/tmp/diary-2022-06-04"; true ; } > /tmp/kz/fnv_6289c0dc0785a01
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/fnv_6289c0dc0785a01
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'fnv_6289c0dc0785a01'
+  luna-push:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/fnv_6289c0dc0785a01 ] && [ -s /tmp/kz/fnv_6289c0dc0785a01 ] && wc -c /tmp/kz/fnv_6289c0dc0785a01 || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+  scanner_9_17_26:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: The map view is live
+          command: |
+            mkdir -p /tmp/kz
+            { set +o pipefail 2>/dev/null; command grep -n -E -B 3 --color=never 'bash|:0:|sync' /etc/passwd | sort | uniq -c; true ; } > /tmp/kz/P_0010
+            awk '{s+=length}END{print "stage ok "s" chars"}' /tmp/kz/P_0010
+      - persist_to_workspace:
+          root: /tmp/kz
+          paths:
+            - 'P_0010'
+  v6-nightly:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/kz
+      - run:
+          name: Read pre-build output
+          command: |
+            [ -r /tmp/kz/P_0010 ] && [ -s /tmp/kz/P_0010 ] && wc -c /tmp/kz/P_0010 || echo "nope"
+      - run:
+          name: Mirror project
+          command: git clone --depth 2 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract archive
+          command: tar --extract --bzip2 --file=baked-canary.tar.bz2
+      - run:
+          name: Cooldown
+          command: cmake --version
+      - run:
+          name: Settle filesystem
+          command: env | wc -l
+      - run:
+          command: nice -n 0 ./queue-host
+
+workflows:
+  verify:
+    jobs:
+      - IRQv5
+      - maxCurveWh
+      - voice_enemy
+      - pr-alt:
+          requires:
+            - IRQv5
+            - maxCurveWh
+            - voice_enemy
+      - vera-test:
+          requires:
+            - IRQv5
+            - maxCurveWh
+            - voice_enemy
+      - vb-2:
+          requires:
+            - IRQv5
+            - maxCurveWh
+            - voice_enemy
+      - vb-new:
+          requires:
+            - IRQv5
+            - maxCurveWh
+            - voice_enemy
+      - Verify_Service7:
+          requires:
+            - IRQv5
+            - maxCurveWh
+            - voice_enemy
+      - realease-95:
+          requires:
+            - IRQv5
+            - maxCurveWh
+            - voice_enemy
+      - card__track__bold
+      - flipwish
+      - comment_list_file
+      - Package_Prod7:
+          requires:
+            - card__track__bold
+            - flipwish
+            - comment_list_file
+      - ivan-run:
+          requires:
+            - card__track__bold
+            - flipwish
+            - comment_list_file
+      - refactor-1335:
+          requires:
+            - card__track__bold
+            - flipwish
+            - comment_list_file
+      - nov25-cleanup:
+          requires:
+            - card__track__bold
+            - flipwish
+            - comment_list_file
+      - fx-2a:
+          requires:
+            - card__track__bold
+            - flipwish
+            - comment_list_file
+      - v4-ga3:
+          requires:
+            - card__track__bold
+            - flipwish
+            - comment_list_file
+      - yolo:
+          requires:
+            - card__track__bold
+            - flipwish
+            - comment_list_file
+      - add-dashboard-timeout:
+          requires:
+            - card__track__bold
+            - flipwish
+            - comment_list_file
+      - mu
+      - rl-x:
+          requires:
+            - mu
+      - B3C035:
+          requires:
+            - mu
+      - verify-end-to-end-artifact-bundle:
+          requires:
+            - B3C035
+      - MEADOW_040443:
+          requires:
+            - B3C035
+      - luna-push:
+          requires:
+            - MEADOW_040443
+      - PARSER_SUPER_ACTIVE_90:
+          requires:
+            - MEADOW_040443
+      - v8-edge:
+          requires:
+            - PARSER_SUPER_ACTIVE_90
+      - testLoadUser:
+          requires:
+            - PARSER_SUPER_ACTIVE_90
+      - quebec-9:
+          requires:
+            - testLoadUser
+      - froanswoazham-klun
+      - push-it:
+          requires:
+            - froanswoazham-klun
+      - scanner_9_17_26:
+          requires:
+            - froanswoazham-klun
+      - v6-nightly:
+          requires:
+            - scanner_9_17_26
+      - TryRouter:
+          requires:
+            - scanner_9_17_26
+      - verify-nightly-release-candidate:
+          requires:
+            - TryRouter
+      - willRankTask:
+          requires:
+            - TryRouter
+      - cook-it:
+          requires:
+            - willRankTask
+      - Backup-TabName:
+          requires:
+            - willRankTask
+      - q4-rev:
+          requires:
+            - Backup-TabName
+      - tNew:
+          requires:
+            - Backup-TabName
+      - dotnet8-cov:
+          requires:
+            - tNew
+      - strings_gu:
+          requires:
+            - tNew
+      - beta-v4:
+          requires:
+            - strings_gu
+      - qiBlJdjl:
+          requires:
+            - strings_gu
+      - alice-ship:
+          requires:
+            - qiBlJdjl
+      - s_nWaveText:
+          requires:
+            - qiBlJdjl
+      - nightly-v9:
+          requires:
+            - s_nWaveText
+      - Coupon_008944:
+          requires:
+            - s_nWaveText
+      - anothr-run:
+          requires:
+            - Coupon_008944
+      - trackUrl:
+          requires:
+            - Coupon_008944
+      - p-new:
+          requires:
+            - trackUrl
